@@ -12,13 +12,13 @@ cd dist
 # 部署到自定义域域名
 # echo 'www.example.com' > CNAME
 
-# git init
+git init
 git add -A
 git commit -m 'deploy'
 
-git push
+
 # 部署到 https://<USERNAME>.github.io   eoit3.github.io
-# git push -f git@github.com:<eoit3>/<eoit3>.github.io.git master
+git push -f https://github.com/eoit3/eoit3.github.io.git  master
 
 # 部署到 https://<USERNAME>.github.io/<REPO>
 # git push -f git@github.com:<USERNAME>/<REPO>.git master:gh-pages
