@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+        canvas {
+            /* position: absolute; */
+            border: 1px solid black;
+        }
+
+        #background-layer {
+
+            z-index: 2;
+        }
+
+        #windmill {
+            z-index: 3;
+        }
+
+        #snowflake {
+            top: 600px;
+            background: #000;
+        }
+
+        #tutorial {
+            top: 600px;
+            top: 600px;
+        }
+    </style>
+    <script type="text/javascript">
+        
+        function drawPractice() {
+            var canvas = document.getElementById('tutorial');
+            if (canvas.getContext) {
+                var ctx = canvas.getContext('2d')
+                // 绘制一个矩形 x轴  y轴   宽  高
+                ctx.fillRect(30, 30, 100, 100)
+                // 清除指定矩形区域  x轴  y轴  宽  高
+                ctx.clearRect(40, 40, 80, 80)
+                // 绘制矩形的边框  x轴  y轴  宽  高
+                ctx.strokeRect(200, 50, 60, 60)
+
+                ctx.beginPath() // 新建一条路径，生成之后，图形绘制命令被指向到路径上生成路径。
+
+                ctx.closePath() // 关闭一条路径
+
+                ctx.stroke() // 通过线条来绘制图形轮廓。
+
+                ctx.fill() // 通过填充路径的内容区域生成实心的图形。
+
+                // 注意： 当你调用fill()函数时，所有没有闭合的形状都会自动闭合，所以你不需要调用closePath()函数。
+                // 但是调用stroke()时不会自动闭合。 看下列例子。
+
+                // 例如：画一个填充的三角形
+                ctx.beginPath()
+                ctx.moveTo(200, 200) // moveTo(x, y)  将笔触移动到指定的坐标x以及y上。（就是路径的起点）
+                ctx.lineTo(250, 150) // 绘制一条从当前位置到指定x以及y位置的直线。
+                ctx.lineTo(250, 250)
+                ctx.fill() // fill不需要闭合路径
+                // 画一个描边的三角形
+                ctx.beginPath()
+                ctx.moveTo(400, 200)
+                ctx.lineTo(450, 150)
+                ctx.lineTo(450, 250)
+                // 需要闭合路径
+                ctx.closePath()
+                ctx.stroke()
+
+                // 画圆
+                ctx.beginPath()
+                ctx.arc(75, 200, 50, 0, 2 * Math.PI, false)  // 画一个以（x,y）为圆心的以radius为半径的圆弧（圆），
+                // 从startAngle开始到endAngle结束，按照anticlockwise给定的方向（默认为顺时针）来生成。
+                ctx.moveTo(95, 200) // 注意moveto到新的位置
+                ctx.arc(75, 200, 20, 0, Math.PI, false)
+                ctx.moveTo(55, 180)
+                ctx.arc(50, 180, 5, 0, 2 * Math.PI, false)
+                ctx.moveTo(105, 180)
+                ctx.arc(100, 180, 5, 0, 2 * Math.PI, false)
+                ctx.stroke()
+
+                ctx.beginPath()
+                ctx.arc(137, 137, 13, Math.PI / 7, -Math.PI / 7, false)
+                // ctx.lineTo(131, 137)
+                ctx.fill()
+
+                ctx.beginPath()
+                ctx.arc(500, 500, 30, 0, Math.PI*2, true)
+                ctx.arc(500, 500, 15, 0, Math.PI*2, true)
+                ctx.arc(500, 500, 10, 0, Math.PI*2, true)
+                ctx.arc(500, 500, 5, 0, Math.PI*2, true)
+                ctx.fill("evenodd")
+
+                // 二次贝塞尔曲线
+                ctx.beginPath()
+                
+                ctx.moveTo(75, 325)
+                ctx.quadraticCurveTo(25, 325, 25, 362.5)
+                ctx.quadraticCurveTo(25, 400, 50, 400)
+                ctx.quadraticCurveTo(50, 420, 30, 425)
+                ctx.quadraticCurveTo(60, 420, 65, 400)
+                ctx.quadraticCurveTo(125, 400, 125, 362.5)
+                ctx.quadraticCurveTo(125, 325, 75, 325)
+                ctx.stroke()
+                // ctx.clip()
+                // ctx.fillRect(0, 325, 125, 100)
+                
+                
+                
+                
+                
+                ctx.beginPath()
+                ctx.strokeStyle  = '#f00'
+                ctx.lineWidth = 5
+                ctx.moveTo(0, 600)
+                ctx.lineTo(0, 500)
+                ctx.lineTo(30, 500)
+                ctx.lineTo(60, 510)
+                ctx.lineTo(90, 400)
+                ctx.lineTo(110, 490)
+                ctx.lineTo(130, 510)
+                ctx.lineTo(150, 530)
+                ctx.lineTo(180, 455)
+                ctx.lineTo(1000, 455)
+                ctx.lineTo(1000, 600)
+                ctx.stroke()
+                ctx.clip()
+                var gradient = ctx.createLinearGradient(0, 300, 0, 600);
+                gradient.addColorStop(0,"#01f24f")
+                gradient.addColorStop(1,"white")
+                ctx.fillStyle = gradient
+                // ctx.fillStyle = '#01f24f'
+                ctx.fillRect(0, 300, 1000, 600)
+                // ctx.fill()
+            }
+
+        }
+        window.onload = function () {
+            drawPractice()
+        }
+
+    </script>
+</head>
+
+<body>
+    <canvas id="windmill" width="1000" height="600"></canvas>
+    <canvas id="snowflake" width="1000" height="600"></canvas>
+
+    <canvas id="tutorial" width="1000" height="600"></canvas>
+
+    <script>
+
+        // 画一个小风车
+        var degrees = 0
+        var speed = 6
+        setInterval(() => {
+            speed === 8 ?  speed = 2 : speed = 8
+        }, 2000)
+        function draw() {
+            // console.log(speed)
+            degrees += speed
+            if (degrees >= 360) {
+                degrees = 1
+            }
+
+
+            var wind = document.getElementById('windmill')
+            var cvsCtx = wind.getContext('2d')
+
+
+            cvsCtx.clearRect(0, 0, 1000, 600)
+
+            cvsCtx.save()
+            cvsCtx.translate(500, 300)
+            
+            
+            cvsCtx.fillStyle = 'purple'
+            cvsCtx.fillRect(0, 0, 10, 300)
+            // cvsCtx.strokeRect(-5, 0, 10, 290)
+
+
+            cvsCtx.save()
+            cvsCtx.rotate(degrees * Math.PI / 180)
+            cvsCtx.fillStyle = 'purple'
+            cvsCtx.fillRect(-70, -70, 140, 140)
+            cvsCtx.restore()
+
+            cvsCtx.save()
+            cvsCtx.rotate(degrees * Math.PI / 180)
+            cvsCtx.fillStyle = '#9F4D95'
+            cvsCtx.beginPath()
+            cvsCtx.moveTo(0, 0)
+            cvsCtx.lineTo(0, -140)
+            cvsCtx.lineTo(-70, -70)
+            cvsCtx.fill()
+            cvsCtx.restore()
+
+            cvsCtx.save()
+            cvsCtx.rotate(degrees * Math.PI / 180)
+            cvsCtx.fillStyle = '#9F4D95'
+            cvsCtx.beginPath()
+            cvsCtx.moveTo(0, 0)
+            cvsCtx.lineTo(140, 0)
+            cvsCtx.lineTo(70, -70)
+            cvsCtx.fill()
+            cvsCtx.restore()
+
+            cvsCtx.save()
+            cvsCtx.rotate(degrees * Math.PI / 180)
+            cvsCtx.fillStyle = '#9F4D95'
+            cvsCtx.beginPath()
+            cvsCtx.moveTo(0, 0)
+            cvsCtx.lineTo(0, 140)
+            cvsCtx.lineTo(70, 70)
+            cvsCtx.fill()
+            cvsCtx.restore()
+
+            cvsCtx.save()
+            cvsCtx.rotate(degrees * Math.PI / 180)
+            cvsCtx.fillStyle = '#9F4D95'
+            cvsCtx.beginPath()
+            cvsCtx.moveTo(0, 0)
+            cvsCtx.lineTo(-140, 0)
+            cvsCtx.lineTo(-70, 70)
+            cvsCtx.fill()
+            cvsCtx.restore()
+
+
+
+            // cvsCtx.fillStyle = '#4DFFFF'
+            // cvsCtx.beginPath()
+            // cvsCtx.arc(0, 0, 20, 0, Math.PI * 2, true)
+            // cvsCtx.fill()
+
+
+            cvsCtx.restore()
+
+            // console.log(degrees, 'degress')
+            window.requestAnimationFrame(draw)
+        }
+        // draw()
+        // setInterval(draw, 1000) 
+        window.requestAnimationFrame(draw)
+        // 画一个下雪效果
+        
+
+    </script>
+</body>
+
+</html>
